@@ -21,7 +21,7 @@ import RecipeDetails from "./components/RecipeDetails"
   // }
 
 
-  // // When component mounted we will want to execute data fetching right away
+  // When component mounted we will want to execute data fetching right away
   // componentDidMount() {
   //   this.getRecipes()
   // }
