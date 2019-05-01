@@ -8,31 +8,40 @@ import RecipeDetails from "./components/RecipeDetails"
   state = {
     recipes: recipes,
     url: "https://www.food2fork.com/api/search?key=b70d69df7c05178830dc125bea206013",
-    details_id: 35382
+    details_id: 35375,
+    pageIndex: 0
   };
 
-  // async getRecipes() {
-  //   try {
-  //     const data = await fetch(this.state.url);
-  //   const jsonData = await data.json(); // Grabbing all json data
-  //   this.setState({ recipes: jsonData.recipes }); // this.setState will always go with brackets
-  //   } catch (error){
-  //     console.log(error)
-  //   }
-  // }
+  async getRecipes() {
+    try {
+      const data = await fetch(this.state.url);
+    const jsonData = await data.json(); // Grabbing all json data
+    this.setState({ recipes: jsonData.recipes }); // this.setState will always go with brackets
+    } catch (error){
+      console.log(error)
+    }
+  }
 
 
   // When component mounted we will want to execute data fetching right away
-  // componentDidMount() {
-  //   this.getRecipes()
-  // }
+  componentDidMount() {
+    this.getRecipes()
+  }
+
+  displayPage = (index) => {
+    switch(index) {
+      default: 
+      case 1: 
+        return (< RecipeList recipes={this.state.recipes} />)
+      case 0:
+      return (< RecipeDetails id={this.state.details_id} />)
+    }
+  }
 
   render() {
-    // console.log(this.state.recipes);
     return (
       <React.Fragment>
-      {/*<RecipeList recipes={this.state.recipes} />*/}
-      <RecipeDetails id={this.state.details_id} /> 
+     {this.displayPage(this.state.pageIndex)}
       </React.Fragment>
     )
   }

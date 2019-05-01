@@ -2,24 +2,54 @@ import React, { Component } from 'react';
 import { recipe } from "../tempDetails";
 
 export default class RecipeDetails extends Component {
-    constructor(props) {
-        super(props)
+//     constructor(props) {
+//         super(props)
 
-        this.state =  {
-            recipe:recipe,
-            url:  `https://www.food2fork.com/api/get?key=b70d69df7c05178830dc125bea206013&rId=${this.props.id} `
-        }
-    }
+//         this.state =  {
+//             recipe:recipe,
+//             url:  `https://www.food2fork.com/api/get?key=b70d69df7c05178830dc125bea206013&rId=${this.props.id} `
+//         }
+//     }
+
+// async componentDidMount () {
+//     try {
+//     const data = await fetch(this.state.url);
+//     const jsonData = await data.json(); // Grabbing all json data
+//     this.setState({ recipe: jsonData.recipe }); // this.setState will always go with brackets
+//     } catch (error){
+//       console.log(error)
+//     }
+// }    
+
+state = {
+    recipe: recipe
+}
+
+async componentDidMount() {
+      const id = this.props.id;
+      const url = `https://www.food2fork.com/api/get?key=b70d69df7c05178830dc125bea206013&rId=${id}`;
+      try {
+             const data = await fetch(url);
+             const jsonData = await data.json(); // Grabbing all json data
+             this.setState(
+                 (state, props) => {
+                    return { recipe: jsonData.recipe }
+                 },() => {}
+                ); // this.setState will always go with brackets - Its like 
+             } catch (error) {
+               console.log(error)
+             }
+}
+ 
   render() {
-      console.log(this.state.recipe);
       const { image_url, publisher, publisher_url, source_url, title, ingredients } = this.state.recipe
-
+      const {handleIndex} = this.props // Using destructure 
     return (
       <React.Fragment> 
       <div className="cointainer">
           <div className="row">
             <div className="col-10 mx-auto col-md-6 my-3">
-                <button type="button" className="btn btn-warning mb-5 text-capitalize">
+                <button type="button" className="btn btn-warning mb-5 text-capitalize" onClick={() => handleIndex(1)}> {/* Passing in the value into handleIndex function  */}
                 back to recipe list
                 </button>
                     <img src={image_url} className="d-block w-100" alt="recipe"/>
