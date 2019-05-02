@@ -9,12 +9,12 @@ import RecipeDetails from "./components/RecipeDetails"
     recipes: recipes,
     url: "https://www.food2fork.com/api/search?key=b70d69df7c05178830dc125bea206013",
     details_id: 35375,
-    pageIndex: 0
+    pageIndex: 1
   };
 
   async getRecipes() {
     try {
-      const data = await fetch(this.state.url);
+    const data = await fetch(this.state.url);
     const jsonData = await data.json(); // Grabbing all json data
     this.setState({ recipes: jsonData.recipes }); // this.setState will always go with brackets
     } catch (error){
@@ -32,10 +32,25 @@ import RecipeDetails from "./components/RecipeDetails"
     switch(index) {
       default: 
       case 1: 
-        return (< RecipeList recipes={this.state.recipes} />)
+        return (<RecipeList recipes={this.state.recipes} 
+                            handleDetails={this.handleDetails}/>)
       case 0:
-      return (< RecipeDetails id={this.state.details_id} />)
+      return (<RecipeDetails id={this.state.details_id} 
+                    handleIndex={this.handleIndex}/>)
     }
+  }
+
+  handleIndex = index => {
+    this.setState({
+      pageIndex: index
+    })
+  }
+
+  handleDetails = (index, id) => {
+    this.setState({
+      pageIndex: index, 
+      details_id: id
+    })
   }
 
   render() {
